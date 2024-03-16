@@ -39,11 +39,11 @@ const Header = () => {
           <span className="self-center text-2xl font-semibold whitespace-nowrap">Expanse Tracker</span>
         </Link>
         <div className="relative items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button type="button" onClick={toggleDropdown} className="flex text-sm rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" i>
+          <button type="button" onClick={toggleDropdown} className="flex text-sm rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 " >
             
             <BsPersonFill className="w-6 h-6" /> <span className="items-center p-1">User</span>
           </button>
-          <div className= {`absolute right-0 top-full mt-2 z-50 ${dropdownOpen ? 'block' : 'hidden'} my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow`} id="user-dropdown">
+          <div className= {`absolute right-0 top-full mt-2 z-50 ${dropdownOpen ? 'block' : 'hidden'} my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow`} id="user-dropdown" style={{ width: '200px' }}>
             <div className="px-4 py-3">
               <span className="block text-sm text-gray-900 ">{loginUser && loginUser.name}</span>
               <span className="block text-sm text-gray-500 truncate ">{loginUser && loginUser.emai}</span>
