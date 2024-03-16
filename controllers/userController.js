@@ -1,14 +1,14 @@
-const userModel = requiere('../models/userModel')
+const userModel = require('../models/userModel')
 
 // login callback
 const loginController = async (req,res) => {
     try{
-        const {email, password} = req.body
+        const {email, password} = req.body;
         const user = await userModel.findOne({email, password})
         if(!user){
             return res.status(404).send("User not found")
         }
-        response.status(200).json({
+        res.status(200).json({
             success: true,
             user,
         });
@@ -16,7 +16,7 @@ const loginController = async (req,res) => {
     } catch(err){
         res.status(400).json({
             success : false,
-            err
+            err : err.message
         });
     }
 };
