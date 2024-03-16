@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+.content{
+  height: 85vh;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
