@@ -7,6 +7,10 @@ const trasanctionSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Amount is required"],
     },
+    type:{
+      type: String,
+      required:[true, "Type is required"]
+    },
     category: {
       type: String,
       required: [true, "Category is required"],
@@ -19,7 +23,7 @@ const trasanctionSchema = new mongoose.Schema(
       required: [true, "Description is required"],
     },
     date: {
-      type: date,
+      type: Date,
       required: [true, "Date is required"],
     },
   },

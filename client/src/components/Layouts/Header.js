@@ -39,7 +39,7 @@ const Header = () => {
           <span className="self-center text-2xl font-semibold whitespace-nowrap">Expanse Tracker</span>
         </Link>
         <div className="relative items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button type="button" onClick={toggleDropdown} className="flex text-sm rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 " >
+          <button type="button" onClick={toggleDropdown} className="flex text-sm rounded-full md:me-0 shadow-lg " >
             
             <BsPersonFill className="w-6 h-6" /> <span className="items-center p-1">User</span>
           </button>
