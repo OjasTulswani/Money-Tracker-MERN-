@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Modal, Select, message, Table } from "antd";
+import { Form, Input, Modal, Select, message, Table, DatePicker } from "antd";
 import Layout from "../components/Layouts/Layout";
+import moment from "moment";
 import axios from "axios";
 import Spinner from "../components/Spinner";
+
+const { RangePicker } = DatePicker;
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [allTransection, setAllTransection] = useState([]);
+  const [frequency, setFrequency] = useState('7');
+  const [selectedDate, setSelectedDate] = useState([])
+  const [type, setType] = useState('ALL')
 
   //table data
   const columns = [
     {
-      title: "Date",
+      title: "Date [DD-MM-YYYY]",
       dataIndex: "date",
+      render : (text) => <span>{moment(text).format('DD-MM-YYYY')}</span>
     },
     {
       title: "Amount",
@@ -36,27 +43,30 @@ const HomePage = () => {
     },
   ];
 
-  //getall transactions
-  const getAllTransactions = async () => {
-    try {
-      const user = JSON.parse(localStorage.getItem("user"));
-      setLoading(true);
-      const res = await axios.post("/transactions/get-transaction", {
-        userid: user._id,
-      });
-      setLoading(false);
-      setAllTransection(res.data);
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
-      message.error("Ftech Issue With Tranction");
-    }
-  };
-
+  
   //useEffect Hook
   useEffect(() => {
+    //getall transactions
+    const getAllTransactions = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        setLoading(true);
+        const res = await axios.post("/transactions/get-transaction", {
+          userid: user._id,
+          frequency,
+          selectedDate,
+          type,
+        });
+        setLoading(false);
+        setAllTransection(res.data);
+        console.log(res.data);
+      } catch (error) {
+        console.log(error);
+        message.error("Ftech Issue With Tranction");
+      }
+    };
     getAllTransactions();
-  }, []);
+  }, [frequency, selectedDate, type]);
 
   //form handling
   const handelSubmit = async (values) => {
@@ -79,7 +89,26 @@ const HomePage = () => {
     <Layout>
       {loading && <Spinner />}
       <div className="filters">
-        <div className="m-3">Range Filter</div>
+        <div className="m-3">
+          <h6>Select Frequency</h6>
+          <Select value={frequency} onChange={(values) => setFrequency(values)}>
+            <Select.Option value="7">LAST 1 WEEK</Select.Option>
+            <Select.Option value="30">LAST 1 MONTH</Select.Option>
+            <Select.Option value="365">LAST 1 YEAR</Select.Option>
+            <Select.Option value="custom">CUSTOM</Select.Option>
+          </Select>
+          {frequency === 'custom' && <RangePicker value={selectedDate} onChange={(values) =>  setSelectedDate(values)} />}
+        </div>
+        <div>
+          <h6>Select Type</h6>
+          <Select value={type} onChange={(values) => setType(values)} className="w-full max-w-3xl">
+            <Select.Option value="all">--ALL--</Select.Option>
+            <Select.Option value="Income">INCOME</Select.Option>
+            <Select.Option value="Expense">EXPENSE</Select.Option>
+            
+          </Select>
+          {frequency === 'custom' && <RangePicker value={selectedDate} onChange={(values) =>  setSelectedDate(values)} />}
+        </div>
         <div>
           <button
             type="button"
