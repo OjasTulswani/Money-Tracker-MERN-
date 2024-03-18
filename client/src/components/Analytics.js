@@ -2,16 +2,15 @@ import React from "react";
 import { Progress } from "antd";
 
 const Analytics = ({ allTransection }) => {
-  const totalTransaction = allTransection.allTransection;
+  const totalTransaction = allTransection.length; // Calculate total number of transactions
   const totalIncomeTransactions = allTransection.filter(
     (transaction) => transaction.type === "Income"
   );
   const totalExpenseTransactions = allTransection.filter(
     (transaction) => transaction.type === "Expense"
   );
-  const totalIncomePercent = (totalIncomeTransactions / totalTransaction) * 100;
-  const totalExpensePercent =
-    (totalExpenseTransactions / totalTransaction) * 100;
+  const totalIncomePercent = (totalIncomeTransactions.length / totalTransaction) * 100; // Calculate percentage of income transactions
+  const totalExpensePercent = (totalExpenseTransactions.length / totalTransaction) * 100; // Calculate percentage of expense transactions
 
   //total turnover
   const totalTurnover = allTransection.reduce(
