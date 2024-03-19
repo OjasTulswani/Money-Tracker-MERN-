@@ -1,0 +1,55 @@
+.register-page {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 400;
+}
+
+.flex {
+    display: flex;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.register-button {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+    background-color: #45a049;
+}
+
+.ant-form-item-label {
+    font-weight: bold;
+}
+
+.ant-input {
+    border-radius: 5px;
+}
+
+.ant-btn {
+    border-radius: 5px;
+}
+
+/* Add margin to the link */
+.link-to-login {
+    margin-right: 10px; /* Adjust spacing as needed */
+}
