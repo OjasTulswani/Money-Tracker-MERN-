@@ -3,7 +3,12 @@ import { Form, Input, Modal, Select, message, Table, DatePicker } from "antd";
 import Layout from "../components/Layouts/Layout";
 import moment from "moment";
 import axios from "axios";
-import { UnorderedListOutlined, AreaChartOutlined } from "@ant-design/icons";
+import {
+  UnorderedListOutlined,
+  AreaChartOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import Spinner from "../components/Spinner";
 import Analytics from "../components/Analytics";
 
@@ -17,13 +22,14 @@ const HomePage = () => {
   const [selectedDate, setSelectedDate] = useState([]);
   const [type, setType] = useState("ALL");
   const [viewData, setViewData] = useState("table");
+  const [editable, setEditable] = useState(null);
 
   //table data
   const columns = [
     {
-      title: "Date [DD-MM-YYYY]",
+      title: "Date [YYYY-MM-DD]",
       dataIndex: "date",
-      render: (text) => <span>{moment(text).format("DD-MM-YYYY")}</span>,
+      render: (text) => <span>{moment(text).format("YYYY-MM-DD")}</span>,
     },
     {
       title: "Amount",
@@ -43,6 +49,20 @@ const HomePage = () => {
     },
     {
       title: "Actions",
+      render: (text, record) => (
+        <div>
+          <EditOutlined
+            onClick={() => {
+              setEditable(record);
+              setShowModal(true);
+            }}
+          />
+          <DeleteOutlined className="mx-2" 
+            onClick={() => {
+              handleDelete(record);
+            }}/>
+        </div>
+      ),
     },
   ];
 
@@ -70,18 +90,49 @@ const HomePage = () => {
     getAllTransactions();
   }, [frequency, selectedDate, type]);
 
+  //delete handler
+  const handleDelete = async (record) => {
+    try {
+      setLoading(true);
+      await axios.post("/transactions/delete-transaction",{
+        transactionId: record._id,
+      });
+      setLoading(false);
+      message.success("Transactions deleted successfully")
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      message.error("Error deleting transaction")
+    }
+  }
+
   //form handling
   const handelSubmit = async (values) => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       setLoading(true);
-      await axios.post("/transactions/add-transaction", {
-        ...values,
-        userid: user._id,
-      });
-      setLoading(false);
-      message.success("Transactions added successfully");
+      if (editable) {
+        await axios.post("/transactions/edit-transaction", {
+          payload: {
+            ...values,
+            userid: user._id,
+            date : moment(values.date).format("YYYY-MM-DD"),
+          },
+          transactionId: editable._id,
+        });
+        setLoading(false);
+        message.success("Transactions updated successfully");
+      } else {
+        await axios.post("/transactions/add-transaction", {
+          ...values,
+          userid: user._id,
+          date: moment(values.date).format("YYYY-MM-DD"),
+        });
+        setLoading(false);
+        message.success("Transactions added successfully");
+      }
       setShowModal(false);
+      setEditable(null);
     } catch (error) {
       setLoading(false);
       message.error("Error while adding transaction");
@@ -126,12 +177,16 @@ const HomePage = () => {
         </div>
         <div className="switch-icons">
           <UnorderedListOutlined
-            className={`mx-2 ${viewData === 'table' ? 'active-icon' : 'inactive-icon'}`}
+            className={`mx-2 ${
+              viewData === "table" ? "active-icon" : "inactive-icon"
+            }`}
             onClick={() => setViewData("table")}
           />
           <AreaChartOutlined
-            className={`mx-2 ${viewData === 'analytics' ? 'active-icon' : 'inactive-icon'}`}
-            onClick={() => setViewData('analytics')}
+            className={`mx-2 ${
+              viewData === "analytics" ? "active-icon" : "inactive-icon"
+            }`}
+            onClick={() => setViewData("analytics")}
           />
         </div>
         <div>
@@ -145,17 +200,23 @@ const HomePage = () => {
         </div>
       </div>
       <div className="content">
-        {viewData === 'table' ? 
-        <Table columns={columns} dataSource={allTransection} /> 
-        : <Analytics allTransection = {allTransection} /> }
+        {viewData === "table" ? (
+          <Table columns={columns} dataSource={allTransection} />
+        ) : (
+          <Analytics allTransection={allTransection} />
+        )}
       </div>
       <Modal
-        title="Add Transaction"
+        title={editable ? "Edit Transaction" : "Add Transaction"}
         open={showModal}
         onCancel={() => setShowModal(false)}
         footer={false}
       >
-        <Form layout="vertical" onFinish={handelSubmit}>
+        <Form
+          layout="vertical"
+          onFinish={handelSubmit}
+          initialValues={editable}
+        >
           <Form.Item label="Amount" name="amount">
             <Input type="text" />
           </Form.Item>

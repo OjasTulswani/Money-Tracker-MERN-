@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 //design schema
-const trasanctionSchema = new mongoose.Schema(
+const transactionSchema = new mongoose.Schema(
   {
     userid:{
       type: String,
@@ -35,5 +35,5 @@ const trasanctionSchema = new mongoose.Schema(
 );
 
 //export
-const trasanctionModel = mongoose.model("trasanction", trasanctionSchema);
-module.exports = trasanctionModel;
+const transactionModel = mongoose.model("trasanction", transactionSchema);
+module.exports = transactionModel;
