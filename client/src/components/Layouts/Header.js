@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsPersonFill } from 'react-icons/bs';
 import { message } from "antd";
-import "../../styles/HeaderStyles.css"
 
 const Header = () => {
 
@@ -34,20 +33,20 @@ const Header = () => {
     <>
       
 
-      <nav className="bg-white border-gray-200 navbar ">
+      <nav className="bg-white border-gray-200 ">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse navbar-brand">
+        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <span className="self-center text-2xl font-semibold whitespace-nowrap">Expanse Tracker</span>
         </Link>
         <div className="relative items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <button type="button" onClick={toggleDropdown} className="flex text-sm rounded-full md:me-0 shadow-lg " >
             
-            <BsPersonFill className="w-6 h-6" /> <span className="items-center p-1">{loginUser && loginUser.name}</span>
+            <BsPersonFill className="w-6 h-6" /> <span className="items-center p-1">User</span>
           </button>
           <div className= {`absolute right-0 top-full mt-2 z-50 ${dropdownOpen ? 'block' : 'hidden'} my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow`} id="user-dropdown" style={{ width: '200px' }}>
             <div className="px-4 py-3">
               <span className="block text-sm text-gray-900 ">{loginUser && loginUser.name}</span>
-              <span className="block text-sm text-gray-500 truncate ">{loginUser && loginUser.email}</span>
+              <span className="block text-sm text-gray-500 truncate ">{loginUser && loginUser.emai}</span>
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">
               {/* <li>
