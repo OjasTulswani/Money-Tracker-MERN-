@@ -3,6 +3,11 @@
 
 Money Tracker is a full-fledged web application built using the MERN stack (MongoDB, ExpressJS, ReactJS, and NodeJS). This application allows users to manage their expenses effectively by adding, editing, deleting, and viewing their expenses. It provides an intuitive and user-friendly interface for expense tracking and management.
 
+# Overview
+
+![Screenshot 2024-09-10 154517](https://github.com/user-attachments/assets/a5708e4c-758c-420d-9874-62067cc41bf5)
+
+
 ## Features
 
 - User Authentication (Sign Up, Sign In)
