@@ -20,6 +20,6 @@ const userSchema = new mongoose.Schema({
 {timestamps : true}
 )
 
-//export
+//export model and using this model we can perform CRUD operations
 const userModel = mongoose.model('users', userSchema);
 module.exports = userModel;

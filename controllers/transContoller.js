@@ -1,6 +1,6 @@
 const transactionModel = require("../models/transactionModel");
 const moment = require("moment");
-const { trace } = require("../routes/transactionRoute");
+
 
 // get all transactions
 const getAllTransactions = async (req, res) => {
