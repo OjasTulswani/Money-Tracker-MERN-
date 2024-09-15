@@ -14,6 +14,22 @@ import Analytics from "../components/Analytics";
 
 const { RangePicker } = DatePicker;
 
+// try to implement a category analysis
+const commonExpenses = [
+  { label: "Grocery", value: "grocery" },
+  { label: "Fuel", value: "fuel" },
+  { label: "Food", value: "food" },
+  { label: "Transportation", value: "transportation" },
+  { label: "Electricity Bill", value: "electricity_bill" },
+  { label: "Gas Bill", value: "gas_bill" },
+  { label: "Mobile Bill", value: "mobile_bill" },
+  { label: "Health", value: "health" },
+  { label: "EMI", value: "emi" },
+  { label: "Salary", value: "salary" },
+  { label: "Travel", value: "travel" },
+  { label: "Miscellaneous", value: "miscellaneous" },
+];
+
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -23,6 +39,12 @@ const HomePage = () => {
   const [type, setType] = useState("ALL");
   const [viewData, setViewData] = useState("table");
   const [editable, setEditable] = useState(null);
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredExpenses = commonExpenses.filter((expense) => 
+    expense.label.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   //table data
   const columns = [
@@ -229,7 +251,19 @@ const HomePage = () => {
           </Form.Item>
 
           <Form.Item label="Category" name="category">
-            <Input type="text" />
+            {/* <Input type="text" /> */}
+            <Select
+              showSearch
+              value={searchQuery}
+              onChange={(value) => setSearchQuery(value)}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
+            >
+              {filteredExpenses.map((expense) => (
+                <Select.Option value={expense.value}>{expense.label}</Select.Option>
+              ))}
+            </Select>
           </Form.Item>
 
           <Form.Item label="Description" name="description">
